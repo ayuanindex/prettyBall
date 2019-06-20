@@ -53,6 +53,7 @@ public final class Tools {
             //通过循环将每一张图片获取，添加到数组中
             Bitmap[] arrBmp = new Bitmap[arrStrFileName.length];
             for (int i = 0; i < arrBmp.length; i++) {
+                //获取指定路径下的图片放到bitmap数组中
                 arrBmp[i] = readBitmapFromAssets(strDir + "/" + arrStrFileName[i]);
             }
             return arrBmp;
