@@ -2,7 +2,6 @@ package top.xxytime.prettyball.main;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -70,8 +69,8 @@ public class GameController extends View implements Runnable {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        background.onDraw(canvas);
         startView.onDraw(canvas);
+        background.onDraw(canvas);
     }
 
     @Override

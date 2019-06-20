@@ -138,7 +138,7 @@ public class StartView {
                 public void run() {
                     try {
                         //防止加载过快，而无法看到Loading动画
-                        Thread.sleep(2000);
+                        Thread.sleep(20);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
