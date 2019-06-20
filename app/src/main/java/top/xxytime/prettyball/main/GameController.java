@@ -84,6 +84,5 @@ public class GameController extends View implements Runnable {
             // 重绘制方法 不断的调用onDraw()方法
             this.postInvalidate();
         }
-
     }
 }

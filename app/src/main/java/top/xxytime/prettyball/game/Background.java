@@ -108,7 +108,7 @@ public class Background {
             // 透明度值变化
             int niOldAlpha = paintBackGround.getAlpha();
             System.out.println(niOldAlpha);
-            niOldAlpha += 10;
+            niOldAlpha++;
             //渐变图已经不透明了，将背景完全遮挡
             if (niOldAlpha >= 255) {
                 // 将渐变图赋值给当前显示的背景图片
