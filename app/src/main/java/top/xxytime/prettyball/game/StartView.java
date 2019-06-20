@@ -2,7 +2,9 @@ package top.xxytime.prettyball.game;
 
 import android.Manifest;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Point;
+import android.icu.text.UFormat;
 
 import java.util.Timer;
 
@@ -26,7 +28,12 @@ public class StartView {
     /**
      * 图片组：Loading动画
      */
-    private Bitmap[] pLoading;
+    private Bitmap[] arrBmpLoading;
+
+    /**
+     *
+     */
+    private Point pLoading;
 
     /**
      * 线程：Loading动画效果实现
@@ -74,7 +81,36 @@ public class StartView {
                 Main.getRECT_GANESCREEN_Y() + (Main.getRECT_GANESCREEN_HEIGHT() - bmpBackground.getHeight()) / 2
         );
 
-        pLoading = Tools.readBitmapFolderFromAssets("image/system/loading");
+        arrBmpLoading = Tools.readBitmapFolderFromAssets("image/system/loading");
 
+        pLoading = new Point(
+                Main.getRECT_GANESCREEN_X() + (Main.getRECT_GANESCREEN_WIDTH() + arrBmpLoading[0].getWidth()) / 2,
+                Main.getRECT_GANESCREEN_Y() + (Main.getRECT_GANESCREEN_HEIGHT() + arrBmpLoading[0].getHeight()) / 2
+        );
+
+        bmpPressAnything = Tools.readBitmapFromAssets("image/system/press.png");
+
+        pPressAnything = new Point(
+                Main.getRECT_GANESCREEN_X() + (Main.getRECT_GANESCREEN_WIDTH() - bmpPressAnything.getWidth()) / 2,
+                Main.getRECT_GANESCREEN_Y() + (Main.getRECT_GANESCREEN_HEIGHT() - bmpPressAnything.getHeight()) * 2
+        );
+    }
+
+    /**
+     * 绘制方法
+     */
+    public void onDraw(Canvas canvas) {
+        //绘制开始游戏背景图
+        canvas.drawBitmap(bmpBackground, pBackground.x, pBackground.y, null);
+
+        if (isPressAnything) {
+            //绘制press图片
+            if (niPressAnythingCount % 3 == 0) {
+                canvas.drawBitmap(bmpPressAnything, pPressAnything.x, pPressAnything.y, null);
+            }
+        } else {
+            //绘制Loading图片
+            canvas.drawBitmap(arrBmpLoading[niFrame], pLoading.x, pLoading.y, null);
+        }
     }
 }
