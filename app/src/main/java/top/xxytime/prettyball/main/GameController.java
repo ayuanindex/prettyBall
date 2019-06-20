@@ -17,9 +17,9 @@ import top.xxytime.prettyball.game.StartView;
 public class GameController extends View implements Runnable {
     private static final String TAG = "GameController";
     /**
-     *
+     * 声明StartView对象
      */
-    private final StartView startView;
+    private StartView startView;
 
     /**
      * 声明background对象
@@ -33,8 +33,8 @@ public class GameController extends View implements Runnable {
      */
     public GameController(Context context) {
         super(context);
-        startView = new StartView();
         background = new Background();
+        startView = new StartView();
         new Thread(this).start();
         background.start();
         startView.start();
@@ -69,8 +69,8 @@ public class GameController extends View implements Runnable {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        startView.onDraw(canvas);
         background.onDraw(canvas);
+        startView.onDraw(canvas);
     }
 
     @Override

@@ -37,7 +37,7 @@ public class StartView {
     /**
      * 线程：Loading动画效果实现
      */
-    private Timer timerLoading;
+    private Timer timerLoading = null;
 
     /**
      * 图片：按下任意键
@@ -52,7 +52,7 @@ public class StartView {
     /**
      * 资源读取回调对象
      */
-    private LoadResourceListener loadResourceListener;
+    private LoadResourceListener listener;
 
     /**
      * 下标：Loading动画的下标
@@ -77,22 +77,22 @@ public class StartView {
 
         pBackground = new Point(
                 Main.getRECT_GANESCREEN_X() + (Main.getRECT_GANESCREEN_WIDTH() - bmpBackground.getWidth()) / 2,
-                Main.getRECT_GANESCREEN_Y() + (Main.getRECT_GANESCREEN_HEIGHT() - bmpBackground.getHeight()) / 2
-        );
+                Main.getRECT_GANESCREEN_Y() + (Main.getRECT_GANESCREEN_HEIGHT() - bmpBackground.getHeight()) / 2);
 
         arrBmpLoading = Tools.readBitmapFolderFromAssets("image/system/loading");
 
         pLoading = new Point(
-                Main.getRECT_GANESCREEN_X() + (Main.getRECT_GANESCREEN_WIDTH() + arrBmpLoading[0].getWidth()) / 2,
-                Main.getRECT_GANESCREEN_Y() + (Main.getRECT_GANESCREEN_HEIGHT() + arrBmpLoading[0].getHeight()) / 2
+                Main.getRECT_GANESCREEN_X() + (Main.getRECT_GANESCREEN_WIDTH() - arrBmpLoading[0].getWidth()) / 2,
+                Main.getRECT_GANESCREEN_Y() + (Main.getRECT_GANESCREEN_HEIGHT() - arrBmpLoading[0].getHeight()) / 2
         );
 
         bmpPressAnything = Tools.readBitmapFromAssets("image/system/press.png");
 
         pPressAnything = new Point(
                 Main.getRECT_GANESCREEN_X() + (Main.getRECT_GANESCREEN_WIDTH() - bmpPressAnything.getWidth()) / 2,
-                Main.getRECT_GANESCREEN_Y() + (Main.getRECT_GANESCREEN_HEIGHT() - bmpPressAnything.getHeight()) / 2
-        );
+                Main.getRECT_GANESCREEN_Y() + (Main.getRECT_GANESCREEN_HEIGHT() - bmpPressAnything.getHeight()) / 2);
+
+
     }
 
     /**
@@ -138,12 +138,12 @@ public class StartView {
                 public void run() {
                     try {
                         //防止加载过快，而无法看到Loading动画
-                        Thread.sleep(20);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    if (loadResourceListener != null) {
-                        isPressAnything = loadResourceListener.loadResource();
+                    if (listener != null) {
+                        isPressAnything = listener.loadResource();
                     }
                 }
             }).start();
@@ -160,18 +160,18 @@ public class StartView {
     /**
      * 添加资源读取回调对象
      *
-     * @param loadResourceListener
+     * @param listener
      */
-    public void addLoadResourceListener(LoadResourceListener loadResourceListener) {
-        this.loadResourceListener = loadResourceListener;
+    public void addLoadResourceListener(LoadResourceListener listener) {
+        this.listener = listener;
     }
 
     /**
      * 删除资源读取回调对象
      */
     public void removeLoadResource() {
-        if (loadResourceListener != null) {
-            loadResourceListener = null;
+        if (listener != null) {
+            listener = null;
         }
     }
 

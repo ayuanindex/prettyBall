@@ -80,19 +80,16 @@ public class Main extends AppCompatActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    public static final int getRECT_GANESCREEN_X() {
+    public static final int getRECT_GANESCREEN_X(){
         return RECT_GAMESCREEB.left;
     }
-
-    public static final int getRECT_GANESCREEN_WIDTH() {
+    public static final int getRECT_GANESCREEN_WIDTH(){
         return RECT_GAMESCREEB.right;
     }
-
-    public static final int getRECT_GANESCREEN_Y() {
+    public static final int getRECT_GANESCREEN_Y(){
         return RECT_GAMESCREEB.top;
     }
-
-    public static final int getRECT_GANESCREEN_HEIGHT() {
+    public static final int getRECT_GANESCREEN_HEIGHT(){
         return RECT_GAMESCREEB.bottom;
     }
 
