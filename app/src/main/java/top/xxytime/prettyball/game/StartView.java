@@ -1,12 +1,11 @@
 package top.xxytime.prettyball.game;
 
-import android.Manifest;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.icu.text.UFormat;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
 import top.xxytime.prettyball.main.Main;
 import top.xxytime.prettyball.utils.Tools;
@@ -113,4 +112,33 @@ public class StartView {
             canvas.drawBitmap(arrBmpLoading[niFrame], pLoading.x, pLoading.y, null);
         }
     }
+
+    /**
+     * 核心逻辑方法
+     */
+    public void logic() {
+        if (isPressAnything) {
+            niPressAnythingCount++;
+        } else {
+            niFrame = (niFrame + 1) % arrBmpLoading.length;
+        }
+    }
+
+    /**
+     * 开始的方法
+     */
+    public void start() {
+        if (timerLoading != null) {
+            timerLoading = new Timer();
+            timerLoading.schedule(new LoadingAnimationMonitor(), 10, 40);
+        }
+    }
+
+    private class LoadingAnimationMonitor extends TimerTask {
+        @Override
+        public void run() {
+            logic();
+        }
+    }
+
 }
