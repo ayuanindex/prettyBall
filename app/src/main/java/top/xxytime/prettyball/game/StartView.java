@@ -52,7 +52,7 @@ public class StartView {
     /**
      * 资源读取回调对象
      */
-    private LoadResourceListener loadResourceListener;
+    private LoadResourceListener listener;
 
     /**
      * 下标：Loading动画的下标
@@ -131,6 +131,22 @@ public class StartView {
         if (timerLoading != null) {
             timerLoading = new Timer();
             timerLoading.schedule(new LoadingAnimationMonitor(), 10, 40);
+
+            //读取资源
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        //防止加载过快，而无法看到Loading动画
+                        Thread.sleep(2000);
+                        if (listener != null) {
+                            isPressAnything = listener.loadResource();
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         }
     }
 
@@ -140,5 +156,6 @@ public class StartView {
             logic();
         }
     }
+
 
 }
