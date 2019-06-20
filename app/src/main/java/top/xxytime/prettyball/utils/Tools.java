@@ -45,6 +45,17 @@ public final class Tools {
             String[] arrStrFileName = null;
             arrStrFileName = Main.getAsset().list(strDir);
             Tools.LogInfo(Arrays.toString(arrStrFileName));
+
+            //判断当前文件夹中是否有文件
+            if (arrStrFileName.length == 0) {
+                return null;
+            }
+            //通过循环将每一张图片获取，添加到数组中
+            Bitmap[] arrBmp = new Bitmap[arrStrFileName.length];
+            for (int i = 0; i < arrBmp.length; i++) {
+                arrBmp[i] = readBitmapFromAssets(strDir + "/" + arrStrFileName[i]);
+            }
+            return arrBmp;
         } catch (IOException e) {
             Tools.LogError(strDir + "error------->" + e.getMessage());
         }
