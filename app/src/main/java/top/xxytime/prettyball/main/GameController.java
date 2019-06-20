@@ -2,13 +2,12 @@ package top.xxytime.prettyball.main;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
 import top.xxytime.prettyball.game.Background;
+import top.xxytime.prettyball.game.StartView;
 
 /**
  * 画布类
@@ -16,6 +15,10 @@ import top.xxytime.prettyball.game.Background;
  * 1.6创建GameController画布类
  */
 public class GameController extends View implements Runnable {
+    /**
+     *
+     */
+    private final StartView startView;
     /**
      * 声明background对象
      */
@@ -31,7 +34,7 @@ public class GameController extends View implements Runnable {
         background = new Background();
         new Thread(this).start();
         background.start();
-
+        startView = new StartView();
     }
 
     /**
@@ -77,5 +80,6 @@ public class GameController extends View implements Runnable {
             // 重绘制方法 不断的调用onDraw()方法
             this.postInvalidate();
         }
+
     }
 }

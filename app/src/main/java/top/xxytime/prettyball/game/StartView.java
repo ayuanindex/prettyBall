@@ -52,7 +52,7 @@ public class StartView {
     /**
      * 资源读取回调对象
      */
-    private LoadResourceListener listener;
+    private LoadResourceListener loadResourceListener;
 
     /**
      * 下标：Loading动画的下标
@@ -139,8 +139,8 @@ public class StartView {
                     try {
                         //防止加载过快，而无法看到Loading动画
                         Thread.sleep(2000);
-                        if (listener != null) {
-                            isPressAnything = listener.loadResource();
+                        if (loadResourceListener != null) {
+                            isPressAnything = loadResourceListener.loadResource();
                         }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -150,12 +150,45 @@ public class StartView {
         }
     }
 
+    /**
+     * 是否可以开始游戏
+     */
+    public boolean isStartGame() {
+        return isPressAnything;
+    }
+
+    /**
+     * 添加资源读取回调对象
+     *
+     * @param loadResourceListener
+     */
+    public void addLoadResourceListener(LoadResourceListener loadResourceListener) {
+        this.loadResourceListener = loadResourceListener;
+    }
+
+    /**
+     * 删除资源读取回调对象
+     */
+    public void removeLoadResource() {
+        if (loadResourceListener != null) {
+            loadResourceListener = null;
+        }
+    }
+
+    /**
+     * 关闭方法
+     */
+    public void close() {
+        if (timerLoading != null) {
+            timerLoading.cancel();
+            timerLoading = null;
+        }
+    }
+
     private class LoadingAnimationMonitor extends TimerTask {
         @Override
         public void run() {
             logic();
         }
     }
-
-
 }
