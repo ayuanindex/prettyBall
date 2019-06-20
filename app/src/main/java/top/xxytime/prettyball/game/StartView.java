@@ -91,7 +91,7 @@ public class StartView {
 
         pPressAnything = new Point(
                 Main.getRECT_GANESCREEN_X() + (Main.getRECT_GANESCREEN_WIDTH() - bmpPressAnything.getWidth()) / 2,
-                Main.getRECT_GANESCREEN_Y() + (Main.getRECT_GANESCREEN_HEIGHT() - bmpPressAnything.getHeight()) * 2
+                Main.getRECT_GANESCREEN_Y() + (Main.getRECT_GANESCREEN_HEIGHT() - bmpPressAnything.getHeight()) / 2
         );
     }
 
@@ -130,7 +130,7 @@ public class StartView {
     public void start() {
         if (timerLoading != null) {
             timerLoading = new Timer();
-            timerLoading.schedule(new LoadingAnimationMonitor(), 10, 40);
+            timerLoading.schedule(new LoadingAnimationMonitor(), 40, 40);
 
             //读取资源
             new Thread(new Runnable() {
@@ -139,11 +139,11 @@ public class StartView {
                     try {
                         //防止加载过快，而无法看到Loading动画
                         Thread.sleep(2000);
-                        if (loadResourceListener != null) {
-                            isPressAnything = loadResourceListener.loadResource();
-                        }
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                    }
+                    if (loadResourceListener != null) {
+                        isPressAnything = loadResourceListener.loadResource();
                     }
                 }
             }).start();

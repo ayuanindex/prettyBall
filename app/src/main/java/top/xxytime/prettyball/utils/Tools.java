@@ -40,27 +40,26 @@ public final class Tools {
      * @return 返回资源图片数组
      */
     public static final Bitmap[] readBitmapFolderFromAssets(String strDir) {
+        // 获取指定文件夹下的资源图片所有的资源图片名称
+        String[] arrStrFileName = null;
         try {
-            // 获取指定文件夹下的资源图片所有的资源图片名称
-            String[] arrStrFileName = null;
             arrStrFileName = Main.getAsset().list(strDir);
             Tools.LogInfo(Arrays.toString(arrStrFileName));
-
-            //判断当前文件夹中是否有文件
-            if (arrStrFileName.length == 0) {
-                return null;
-            }
-            //通过循环将每一张图片获取，添加到数组中
-            Bitmap[] arrBmp = new Bitmap[arrStrFileName.length];
-            for (int i = 0; i < arrBmp.length; i++) {
-                //获取指定路径下的图片放到bitmap数组中
-                arrBmp[i] = readBitmapFromAssets(strDir + "/" + arrStrFileName[i]);
-            }
-            return arrBmp;
         } catch (IOException e) {
             Tools.LogError(strDir + "error------->" + e.getMessage());
         }
-        return null;
+
+        //判断当前文件夹中是否有文件
+        if (arrStrFileName.length == 0) {
+            return null;
+        }
+        //通过循环将每一张图片获取，添加到数组中
+        Bitmap[] arrBmp = new Bitmap[arrStrFileName.length];
+        for (int i = 0; i < arrBmp.length; i++) {
+            //获取指定路径下的图片放到bitmap数组中
+            arrBmp[i] = readBitmapFromAssets(strDir + "/" + arrStrFileName[i]);
+        }
+        return arrBmp;
     }
 
     /**

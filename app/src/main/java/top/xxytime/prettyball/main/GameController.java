@@ -2,6 +2,7 @@ package top.xxytime.prettyball.main;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,10 +16,12 @@ import top.xxytime.prettyball.game.StartView;
  * 1.6创建GameController画布类
  */
 public class GameController extends View implements Runnable {
+    private static final String TAG = "GameController";
     /**
      *
      */
     private final StartView startView;
+
     /**
      * 声明background对象
      */
@@ -31,10 +34,11 @@ public class GameController extends View implements Runnable {
      */
     public GameController(Context context) {
         super(context);
+        startView = new StartView();
         background = new Background();
         new Thread(this).start();
         background.start();
-        startView = new StartView();
+        startView.start();
     }
 
     /**
@@ -67,6 +71,7 @@ public class GameController extends View implements Runnable {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         background.onDraw(canvas);
+        startView.onDraw(canvas);
     }
 
     @Override
