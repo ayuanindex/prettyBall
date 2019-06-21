@@ -179,6 +179,6 @@ public class Player {
             }
         }
         rectPosition = new Rect();
-
+        //定位区域位置
     }
 }
