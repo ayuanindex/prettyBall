@@ -179,5 +179,6 @@ public class Player {
             }
         }
         rectPosition = new Rect();
+
     }
 }
