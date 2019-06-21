@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import top.xxytime.prettyball.game.Background;
+import top.xxytime.prettyball.game.LoadResourceListener;
 import top.xxytime.prettyball.game.StartView;
 
 /**
@@ -16,15 +17,21 @@ import top.xxytime.prettyball.game.StartView;
  */
 public class GameController extends View implements Runnable {
     private static final String TAG = "GameController";
-    /**
-     * 声明StartView对象
-     */
-    private StartView startView;
 
     /**
      * 声明background对象
      */
-    private Background background;
+    private Background back;
+
+    /**
+     * 声明StartView对象(开始界面的对象)
+     */
+    private StartView startView;
+
+    /**
+     * 是否是开始界面
+     */
+    private boolean isStartView;
 
     /**
      * 创建构造方法
@@ -33,10 +40,12 @@ public class GameController extends View implements Runnable {
      */
     public GameController(Context context) {
         super(context);
-        background = new Background();
+        back = new Background();
         startView = new StartView();
+        isStartView = true;
+        startView.addLoadResourceListener(new LoadResourceMonitor());
         new Thread(this).start();
-        background.start();
+        back.start();
         startView.start();
     }
 
@@ -69,8 +78,15 @@ public class GameController extends View implements Runnable {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        background.onDraw(canvas);
-        startView.onDraw(canvas);
+        if (isStartView) {
+            //绘制开始界面
+            startView.onDraw(canvas);
+        } else {
+            //游戏结束
+
+            //游戏进行中
+            back.onDraw(canvas);
+        }
     }
 
     @Override
@@ -83,6 +99,18 @@ public class GameController extends View implements Runnable {
             }
             // 重绘制方法 不断的调用onDraw()方法
             this.postInvalidate();
+        }
+    }
+
+    /**
+     * 资源内部类
+     */
+    private class LoadResourceMonitor implements LoadResourceListener {
+
+        @Override
+        public boolean loadResource() {
+            back = new Background();
+            return true;
         }
     }
 }
