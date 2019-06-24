@@ -372,11 +372,83 @@ public class Player {
         niFrame++;
         niFrame = niFrame == 3 ? 0 : niFrame;
         int niSpeed = NI_SPEED_BASIC + niLV;
+        //区域:位置设置
+        rectPosition.left -= niSpeed;
+        rectPosition.right -= niSpeed;
+
+        if (rectPosition.left <= Main.getRECT_GANESCREEN_X()) {
+            rectPosition.left = Main.getRECT_GANESCREEN_X();
+            rectPosition.right = rectPosition.left + NI_WIDTH;
+        }
     }
 
     /**
      * 右移动方法
      */
+    public void moveRight() {
+        niFrame++;
+        niFrame = niFrame == 6 ? 3 : niFrame;
+        int niSpeed = NI_SPEED_BASIC + niLV;
+        //区域:位置设置
+        rectPosition.left += niSpeed;
+        rectPosition.right += niSpeed;
+
+        if (rectPosition.left >= Main.getRECT_GANESCREEN_X() + Main.getRECT_GANESCREEN_WIDTH()) {
+            rectPosition.right = Main.getRECT_GANESCREEN_X() + Main.getRECT_GANESCREEN_WIDTH();
+            rectPosition.left = rectPosition.right - NI_WIDTH;
+        }
+    }
+
+
+    /**
+     * 核心逻辑方法
+     */
+    public void logic() {
+        if (isMoving) {
+            if (isLeft) {
+                moveLeft();
+            } else {
+                moveRight();
+            }
+        }
+    }
+
+    /**
+     * 处理小球对玩家角色的功能
+     *
+     * @param niBallType:小球类型
+     */
+    public void ballDeal(int niBallType) {
+        switch (niBallType) {
+            case 0:
+                //增加生命值
+                addHp(25);
+                break;
+            case 1:
+                //加50分
+                updateScore(50);
+                break;
+            case 2:
+                if (!stopAutoHurt(5)) {
+                    addHp(50);
+                }
+                break;
+            case 3:
+                if (!lvUp()) {
+                    addHp(Player.NI_HPBAR_WIDTH);
+                }
+                break;
+            case 4:
+                hurt(50);
+                break;
+            case 5:
+                updateScore(-200);
+                break;
+            case 6:
+                hurt(getNiHP() );
+                break;
+        }
+    }
 
     /**
      * 结束逻辑
