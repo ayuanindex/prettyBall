@@ -445,7 +445,7 @@ public class Player {
                 updateScore(-200);
                 break;
             case 6:
-                hurt(getNiHP() );
+                hurt(getNiHP());
                 break;
         }
     }
@@ -454,6 +454,20 @@ public class Player {
      * 结束逻辑
      */
     private void gameOver() {
+
+    }
+
+    /**
+     * 线程启动方法
+     */
+    public void start() {
+
+    }
+
+    /**
+     * 线程关闭方法
+     */
+    public void close() {
 
     }
 
@@ -470,4 +484,19 @@ public class Player {
             niFrame = isLeft ? 1 : 4;
         }*/
     }
+
+    private class LogicMonitor implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.sleep(80);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                logic();
+            }
+        }
+    }
+
 }
