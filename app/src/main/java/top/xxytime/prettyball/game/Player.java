@@ -201,13 +201,16 @@ public class Player {
 
         // 定位玩家生命条的区域位置
         rectHpBar = new Rect();
-        paintHpBarBound = new Paint();
         rectHpBar.left = Main.getRECT_GANESCREEN_X() + (Main.getRECT_GANESCREEN_WIDTH() - NI_HPBAR_WIDTH) / 2;
         rectHpBar.right = rectHpBar.left + NI_HPBAR_WIDTH;
         rectHpBar.top = Main.getRECT_GANESCREEN_Y() + Main.getRECT_GANESCREEN_HEIGHT() - NI_HPBAR_HEIGHT;
         rectHpBar.bottom = rectHpBar.top + NI_HPBAR_HEIGHT;
         niFrame = isLeft ? 1 : 4;
+
         paintHpBar = new Paint();
+        paintHpBarBound = new Paint();
+        paintHpBarBound.setStyle(Paint.Style.STROKE);
+        paintHpBarBound.setStrokeWidth(1);
         paintText = new Paint();
         paintText.setTextSize(11);
 
