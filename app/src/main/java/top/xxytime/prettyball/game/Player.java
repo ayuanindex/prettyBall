@@ -6,12 +6,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.icu.text.UFormat;
 
-import java.util.Scanner;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import top.xxytime.prettyball.main.Main;
+import top.xxytime.prettyball.main.StateCallBack;
 import top.xxytime.prettyball.utils.Tools;
 
 /**
@@ -177,6 +177,11 @@ public class Player {
     private boolean isThread;
 
     /**
+     * 回调对象
+     */
+    private StateCallBack callBack;
+
+    /**
      * 在构造方法中赋值
      */
     public Player() {
@@ -184,7 +189,7 @@ public class Player {
         // 获取角色图片
         for (int i = 0; i < arrBmpAnimation.length; i++) {
             for (int j = 0; j < arrBmpAnimation[i].length; j++) {
-                arrBmpAnimation[i][j] = Tools.readBitmapFromAssets("image/player/p" + i + "_" + j + ".png");
+                arrBmpAnimation[i][j] = Tools.readBitmapFromAssets("image/player/p" + (i + 1) + "_" + j + ".png");
             }
         }
         rectPosition = new Rect();
@@ -196,12 +201,13 @@ public class Player {
 
         // 定位玩家生命条的区域位置
         rectHpBar = new Rect();
+        paintHpBarBound = new Paint();
         rectHpBar.left = Main.getRECT_GANESCREEN_X() + (Main.getRECT_GANESCREEN_WIDTH() - NI_HPBAR_WIDTH) / 2;
         rectHpBar.right = rectHpBar.left + NI_HPBAR_WIDTH;
         rectHpBar.top = Main.getRECT_GANESCREEN_Y() + Main.getRECT_GANESCREEN_HEIGHT() - NI_HPBAR_HEIGHT;
         rectHpBar.bottom = rectHpBar.top + NI_HPBAR_HEIGHT;
         niFrame = isLeft ? 1 : 4;
-
+        paintHpBar = new Paint();
         paintText = new Paint();
         paintText.setTextSize(11);
 
@@ -239,8 +245,6 @@ public class Player {
 
         // 重置生命值
         niHP = NI_FRAME_MAX;
-
-
     }
 
     /**
@@ -259,7 +263,6 @@ public class Player {
         canvas.drawBitmap(arrBmpAnimation[niLV][niFrame], rectPosition.left, rectPosition.top, null);
         // 绘制上一级生命条
         if (niLV > 0 && niHP != NI_HPBAR_WIDTH) {
-            paintHpBarBound = new Paint();
             paintHpBarBound.setColor(arrNiHpColor[niLV - 1]);
             canvas.drawRect(rectHpBar, paintHpBar);
         }
@@ -454,21 +457,34 @@ public class Player {
      * 结束逻辑
      */
     private void gameOver() {
-
+        if (callBack != null) {
+            callBack.notifyGameOver();
+        }
     }
 
     /**
      * 线程启动方法
      */
     public void start() {
-
+        if (!isThread) {
+            isThread = true;
+            //玩家角色的动画线程启动
+            new Thread(new LogicMonitor()).start();
+            //生命条自动消减的线程
+            timerHpAutoHurt = new Timer();
+            timerHpAutoHurt.schedule(new HpAutoHurtMonitor(), 4000, NI_HP_AUTO_HURT_ROTATE);
+        }
     }
 
     /**
      * 线程关闭方法
      */
     public void close() {
-
+        isThread = false;
+        if (timerHpAutoHurt != null) {
+            timerHpAutoHurt.cancel();
+            timerHpAutoHurt = null;
+        }
     }
 
     /**
@@ -499,4 +515,32 @@ public class Player {
         }
     }
 
+    private class HpAutoHurtMonitor extends TimerTask {
+        @Override
+        public void run() {
+            if (niStopAutoHurtValue == 0) {
+                hurt(1);
+            } else {
+                niStopAutoHurtValue--;
+            }
+        }
+    }
+
+    /**
+     * 添加回调功能
+     *
+     * @param callBack--->回调对象
+     */
+    public void addStateListener(StateCallBack callBack) {
+        this.callBack = callBack;
+    }
+
+    /**
+     * 删除回调对象
+     */
+    public void removeStateListener() {
+        if (callBack != null) {
+            callBack = null;
+        }
+    }
 }
