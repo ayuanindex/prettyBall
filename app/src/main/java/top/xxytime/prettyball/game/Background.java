@@ -3,6 +3,7 @@ package top.xxytime.prettyball.game;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 import top.xxytime.prettyball.main.Main;
 import top.xxytime.prettyball.utils.Tools;
@@ -89,6 +90,8 @@ public class Background {
      * @param canvas
      */
     public void onDraw(Canvas canvas) {
+        Rect rect = new Rect();
+        canvas.drawBitmap(bmpbackground, null, rect, null);
         canvas.drawBitmap(bmpbackground, Main.getRECT_GANESCREEN_X(), Main.getRECT_GANESCREEN_Y(), null);
         if (bmpBackgroundAlpha != null) {
             canvas.drawBitmap(bmpBackgroundAlpha, Main.getRECT_GANESCREEN_X(), Main.getRECT_GANESCREEN_Y(), paintBackGround);
