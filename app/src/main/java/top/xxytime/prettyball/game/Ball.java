@@ -8,6 +8,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import java.util.Calendar;
+import java.util.Timer;
+
 public class Ball {
     /**
      * 球类型-草莓型(增加玩家角色生命值10点)
@@ -92,6 +95,7 @@ public class Ball {
      * 重生时间累计(>0：代表正处于等待重生, -1代表此小球可用, 0代表此小球正在使用)
      **/
     private int niReliveTimeCount;
+    private boolean isThread;
 
     public Ball() {
         this.niSpeed = 4;
@@ -100,7 +104,7 @@ public class Ball {
     }
 
     public void reset() {
-        //动画getRandomInt
+        //动画
         niFrame = 0;
         //位置
         rectPosition.left = Tools.getRandomInt(Main.getRECT_GANESCREEN_X(), Main.getRECT_GANESCREEN_X() + Main.getRECT_GANESCREEN_WIDTH() - NI_SIZE);
@@ -138,6 +142,49 @@ public class Ball {
             canvas.drawBitmap(ARR_BMP[niType][niFrame], rectPosition.left, rectPosition.top, null);
     }
 
+    public void logic() {
+        //正在使用中
+        if (niReliveTimeCount == 0) {
+            niFrame = ++niFrame % NI_FRAME_MAX;
+            rectPosition.top += niSpeed;
+            rectPosition.bottom += niSpeed;
+            //检测小球是否超出屏幕底端
+            if (rectPosition.top > Main.getRECT_GANESCREEN_Y() + Main.getRECT_GANESCREEN_HEIGHT()) {
+                reset();
+            } else {
+                callback.collideCheck(this);
+            }
+        }
+        //重生中
+        else if (niReliveTimeCount != -1) {
+            niReliveTimeCount--;
+            if (niReliveTimeCount == 0)
+                niReliveTimeCount = -1;
+        }
+    }
+
+    /**
+     * 使小球进入使用状态
+     */
+    public void use() {
+        niReliveTimeCount = 0;
+    }
+
+    /**
+     * 是否可用
+     *
+     * @return
+     */
+    public boolean isEnable() {
+        return niReliveTimeCount == -1;
+    }
+
+    /**
+     * 是否与指定对象发生碰撞
+     *
+     * @param p : 玩家角色对象
+     * @return
+     */
     public boolean isCollideWith(Player p) {
         return Rect.intersects(rectPosition, p.getRectPosition());
     }
@@ -166,5 +213,29 @@ public class Ball {
     public void removeListener() {
         if (callback != null)
             callback = null;
+    }
+
+    public void start() {
+        if (!isThread) {
+            isThread = true;
+            //玩家角色的动画线程启动
+            new Thread(new LogicMonitor()).start();
+        }
+    }
+
+    public void stop() {
+
+    }
+
+    private class LogicMonitor implements Runnable {
+        @Override
+        public void run() {
+            try {
+                new Thread().sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            logic();
+        }
     }
 }

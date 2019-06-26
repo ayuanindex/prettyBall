@@ -81,7 +81,7 @@ public class GameController extends View implements Runnable {
         back.start();
         player.start();//开启玩家线程
         //开启小球管理器线程
-        ball.addBallListener(new ballMonitor());
+        ball.start();
     }
 
     /**
@@ -185,6 +185,7 @@ public class GameController extends View implements Runnable {
             player.addStateListener(new stateMonitor());
             //创建小球对象
             ball = new Ball();
+            ball.addBallListener(new ballMonitor());
             return true;
         }
     }
