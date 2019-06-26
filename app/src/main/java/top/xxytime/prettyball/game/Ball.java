@@ -16,7 +16,7 @@ public class Ball {
      * 球类型-草莓型(增加玩家角色生命值10点)
      **/
     public static final int NI_TYPE_0 = 0;
-    /**
+    /**˚
      * 球类型-苹果型(增加玩家50分)
      **/
     public static final int NI_TYPE_1 = 1;
@@ -186,6 +186,7 @@ public class Ball {
      * @return
      */
     public boolean isCollideWith(Player p) {
+        callback.collideCheck(this);
         return Rect.intersects(rectPosition, p.getRectPosition());
     }
 

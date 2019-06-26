@@ -192,6 +192,7 @@ public class GameController extends View implements Runnable {
         @Override
         public void notifyGameOver() {
             //结束逻辑
+
             //状态改变
             isGameOver = true;
             back.close();
