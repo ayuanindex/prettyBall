@@ -85,7 +85,6 @@ public class GameController extends View implements Runnable {
         //background.start();
         NUM_RANDOM = Tools.getRandomInt(3, 5);
         balls = new Ball[NUM_RANDOM];
-
     }
 
     /**
@@ -102,11 +101,9 @@ public class GameController extends View implements Runnable {
             case MotionEvent.ACTION_DOWN:
                 //非开始，非结束
                 if (!isStartView && !isGameOver) {
-
                     player.setState(true, niTouchX < Main.getRECT_GANESCREEN_X() + Main.getRECT_GANESCREEN_WIDTH() / 2);
                 }
                 break;
-
             case MotionEvent.ACTION_UP:
                 if (isStartView) {
                     if (startView.isStartGame()) {

@@ -427,7 +427,6 @@ public class Player {
      * @param niBallType:小球类型
      */
     public void ballDeal(int niBallType) {
-        int[] arr = {0, 1, 2, 3, 4, 5, 6};
         switch (niBallType) {
             case 0:
                 //增加生命值
