@@ -91,7 +91,6 @@ public class Background {
      */
     public void onDraw(Canvas canvas) {
         Rect rect = new Rect();
-        canvas.drawBitmap(bmpbackground, null, rect, null);
         canvas.drawBitmap(bmpbackground, Main.getRECT_GANESCREEN_X(), Main.getRECT_GANESCREEN_Y(), null);
         if (bmpBackgroundAlpha != null) {
             canvas.drawBitmap(bmpBackgroundAlpha, Main.getRECT_GANESCREEN_X(), Main.getRECT_GANESCREEN_Y(), paintBackGround);

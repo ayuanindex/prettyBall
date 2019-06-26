@@ -275,29 +275,22 @@ public class Player {
      * 绘制方法
      */
     public void onDraw(Canvas canvas) {
-        // 绘制角色
+        //绘制角色
         canvas.drawBitmap(arrBmpAnimation[niLV][niFrame], rectPosition.left, rectPosition.top, null);
-        // 绘制上一级生命条
+        //绘制上一级生命条
         if (niLV > 0 && niHP != NI_HPBAR_WIDTH) {
-            paintHpBarBound.setColor(arrNiHpColor[niLV - 1]);
+            paintHpBar.setColor(arrNiHpColor[niLV - 1]);
             canvas.drawRect(rectHpBar, paintHpBar);
 
         }
-        // 绘制当前生命条
+        //绘制当前生命条
         paintHpBar.setColor(arrNiHpColor[niLV]);
-        canvas.drawRect(rectHpBar, paintHpBar);
-        /*canvas.drawRect(
-                rectHpBar.left,
-                rectHpBar.top,
-                rectHpBar.right,
-                rectHpBar.left + niHP + 10,
-                paintHpBar
-        );*/
-        // 绘制生命条边框
+        canvas.drawRect(rectHpBar.left, rectHpBar.top, rectHpBar.left + niHP, rectHpBar.bottom, paintHpBar);
+        //绘制生命条边框
         canvas.drawRect(rectHpBar, paintHpBarBound);
-        // 绘制文本等级
+        //绘制文本等级
         canvas.drawText(strLv, pLv.x, pLv.y, paintText);
-        // 绘制文本分数
+        //绘制文本分数
         canvas.drawText(strScore, pScore.x, pScore.y, paintText);
     }
 

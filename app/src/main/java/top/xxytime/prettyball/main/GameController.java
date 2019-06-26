@@ -10,6 +10,7 @@ import android.view.View;
 import java.util.concurrent.ExecutionException;
 
 import top.xxytime.prettyball.game.Background;
+import top.xxytime.prettyball.game.Ball;
 import top.xxytime.prettyball.game.LoadResourceListener;
 import top.xxytime.prettyball.game.Player;
 import top.xxytime.prettyball.game.StartView;
@@ -51,6 +52,10 @@ public class GameController extends View implements Runnable {
      * 游戏结束
      */
     private boolean isGameOver;
+    /**
+     * 小球实体类
+     */
+    private Ball ball;
 
     /**
      * 创建构造方法
@@ -76,6 +81,7 @@ public class GameController extends View implements Runnable {
         back.start();
         player.start();//开启玩家线程
         //开启小球管理器线程
+        ball.addBallListener(new ballMonitor());
     }
 
     /**
@@ -107,6 +113,7 @@ public class GameController extends View implements Runnable {
                     } else {
                         //当前游戏是GameOver状态
                         //重新启动，重置restart();
+                        player.reset();
                     }
                 }
                 break;
@@ -148,6 +155,7 @@ public class GameController extends View implements Runnable {
                 //绘制玩家
                 player.onDraw(canvas);
                 //绘制小球
+                ball.onDraw(canvas);
             }
         }
     }
@@ -176,7 +184,7 @@ public class GameController extends View implements Runnable {
             player = new Player();
             player.addStateListener(new stateMonitor());
             //创建小球对象
-
+            ball = new Ball();
             return true;
         }
     }
@@ -193,4 +201,12 @@ public class GameController extends View implements Runnable {
             bmpGameOver = Tools.readBitmapFromAssets("image/system/gameover.png");
         }
     }
+
+    private class ballMonitor implements BallCallback {
+        @Override
+        public void collideCheck(Ball ball) {
+            ball.isCollideWith(player);
+        }
+    }
+
 }
