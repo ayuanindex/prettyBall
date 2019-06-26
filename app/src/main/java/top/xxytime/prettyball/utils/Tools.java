@@ -7,6 +7,7 @@ import android.util.Log;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Random;
 
 import top.xxytime.prettyball.main.Info;
 import top.xxytime.prettyball.main.Main;
@@ -15,6 +16,9 @@ import top.xxytime.prettyball.main.Main;
  * 工具类
  */
 public final class Tools {
+
+    private static Random random;
+
     /**
      * 获取asset文件夹底下的资源图片
      *
@@ -81,6 +85,13 @@ public final class Tools {
     }
 
     public static int getRandomInt(int i, int i1) {
-        return 0;
+        return getRandomInstance().nextInt(10);
+    }
+
+    public static Random getRandomInstance() {
+        if (random == null) {
+            random = new Random();
+        }
+        return random;
     }
 }

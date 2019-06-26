@@ -8,15 +8,12 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import java.util.Calendar;
-import java.util.Timer;
-
 public class Ball {
     /**
      * 球类型-草莓型(增加玩家角色生命值10点)
      **/
     public static final int NI_TYPE_0 = 0;
-    /**˚
+    /**
      * 球类型-苹果型(增加玩家50分)
      **/
     public static final int NI_TYPE_1 = 1;
