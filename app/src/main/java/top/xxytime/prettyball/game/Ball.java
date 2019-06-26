@@ -216,8 +216,8 @@ public class Ball {
     }
 
     public void start() {
-        if (!isThread) {
-            isThread = true;
+        if (isThread) {
+            isThread = false;
             //玩家角色的动画线程启动
             new Thread(new LogicMonitor()).start();
         }

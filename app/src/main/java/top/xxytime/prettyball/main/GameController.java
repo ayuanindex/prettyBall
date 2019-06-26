@@ -7,8 +7,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.concurrent.ExecutionException;
-
 import top.xxytime.prettyball.game.Background;
 import top.xxytime.prettyball.game.Ball;
 import top.xxytime.prettyball.game.LoadResourceListener;
@@ -185,7 +183,7 @@ public class GameController extends View implements Runnable {
             player.addStateListener(new stateMonitor());
             //创建小球对象
             ball = new Ball();
-            ball.addBallListener(new ballMonitor());
+            ball.addBallListener(new BallsMonitor());
             return true;
         }
     }
@@ -203,10 +201,15 @@ public class GameController extends View implements Runnable {
         }
     }
 
-    private class ballMonitor implements BallCallback {
+    private class BallsMonitor implements BallCallback {
         @Override
         public void collideCheck(Ball ball) {
-            ball.isCollideWith(player);
+            boolean collideWith = ball.isCollideWith(player);
+            if (collideWith) {
+                player.ballDeal(ball.getType());
+                ball.use();
+                ball.reset();
+            }
         }
     }
 
