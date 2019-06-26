@@ -231,7 +231,7 @@ public class Ball {
         @Override
         public void run() {
             try {
-                new Thread().sleep(1000);
+                Thread.sleep(80);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
