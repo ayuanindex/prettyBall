@@ -2,12 +2,15 @@ package top.xxytime.prettyball.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import top.xxytime.prettyball.main.Info;
 import top.xxytime.prettyball.main.Main;
@@ -84,14 +87,9 @@ public final class Tools {
         Log.e(Info.STR_LOG_TAG, strMsg);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static int getRandomInt(int i, int i1) {
-        return getRandomInstance().nextInt(10);
-    }
-
-    public static Random getRandomInstance() {
-        if (random == null) {
-            random = new Random();
-        }
-        return random;
+        Random random = new Random();
+        return ThreadLocalRandom.current().nextInt(i,i1);
     }
 }

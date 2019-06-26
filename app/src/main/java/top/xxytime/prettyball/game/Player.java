@@ -235,21 +235,21 @@ public class Player {
      * 重新开始功能（重置，初始化）
      */
     public void reset() {
-        // 位置重置
-        rectPosition.left = Main.getRECT_GANESCREEN_X() + (Main.getRECT_GANESCREEN_WIDTH() - NI_WIDTH) / 2;
+        //位置重置
+        rectPosition.left = Main.getRECT_GANESCREEN_X() + (Main.getRECT_GANESCREEN_WIDTH() - NI_HEIGHT) / 2;
         rectPosition.right = rectPosition.left + NI_WIDTH;
-        // 等级重置
+
+        //等级重置
         niLV = 0;
         strLv = STR_TEXT_LV + (niLV + 1);
-
-        // 分数重置
+        //分数重置
         niScore = 0;
         strScore = STR_TEXT_SCORE + niScore;
-        pScore.x = Main.getRECT_GANESCREEN_X() + Main.getRECT_GANESCREEN_WIDTH() - 5 - (int) paintText.measureText(STR_TEXT_SCORE + niScore);
-
-        // 重置状态
-
-        // 重置生命值
+        pScore.x = Main.getRECT_GANESCREEN_X() +
+                Main.getRECT_GANESCREEN_WIDTH() - 5 - (int) paintText.measureText(STR_TEXT_SCORE + niScore);
+        //重置状态
+        setState(false, true);
+        //重置生命值
         niHP = NI_FRAME_MAX;
     }
 
@@ -351,18 +351,13 @@ public class Player {
             if (niLV > 0) {
                 niLV--;
                 strLv = STR_TEXT_LV + (niLV + 1);
-                niHP = NI_LV_MAX;
+                niHP = NI_HPBAR_WIDTH;
             } else {
                 niHP = 0;
-                //结束游戏
                 gameOver();
             }
         }
     }
-
-    /**
-     * 开始自动减少血量
-     */
 
     /**
      * 开始停止自动减血
@@ -432,6 +427,7 @@ public class Player {
      * @param niBallType:小球类型
      */
     public void ballDeal(int niBallType) {
+        int[] arr = {0, 1, 2, 3, 4, 5, 6};
         switch (niBallType) {
             case 0:
                 //增加生命值
@@ -442,6 +438,7 @@ public class Player {
                 updateScore(50);
                 break;
             case 2:
+                //已经启动自减血模式
                 if (!stopAutoHurt(5)) {
                     addHp(50);
                 }
@@ -455,7 +452,7 @@ public class Player {
                 hurt(50);
                 break;
             case 5:
-                updateScore(-200);
+                updateScore(-50);
                 break;
             case 6:
                 hurt(getNiHP());
@@ -476,9 +473,10 @@ public class Player {
      * 线程启动方法
      */
     public void start() {
+        //判断什么时候启动线程
         if (!isThread) {
             isThread = true;
-            //玩家角色的动画线程启动
+            //玩家角色的动画线程
             new Thread(new LogicMonitor()).start();
             //生命条自动消减的线程
             timerHpAutoHurt = new Timer();
@@ -521,7 +519,7 @@ public class Player {
     }
 
     /**
-     * 生命自减
+     * 开始自动减少血量
      */
     private class HpAutoHurtMonitor extends TimerTask {
         @Override

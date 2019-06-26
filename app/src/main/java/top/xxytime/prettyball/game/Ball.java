@@ -1,12 +1,19 @@
 package top.xxytime.prettyball.game;
 
-import top.xxytime.prettyball.main.BallCallback;
-import top.xxytime.prettyball.main.Main;
-import top.xxytime.prettyball.utils.Tools;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
+import java.util.Timer;
+import java.util.TimerTask;
+
+import top.xxytime.prettyball.main.BallCallback;
+import top.xxytime.prettyball.main.Main;
+import top.xxytime.prettyball.main.StateCallBack;
+import top.xxytime.prettyball.utils.Tools;
 
 public class Ball {
     /**
@@ -63,8 +70,9 @@ public class Ball {
     static {
         //样式
         ARR_BMP = new Bitmap[NI_TYPE_MAX][];
-        for (int i = 0; i < ARR_BMP.length; i++)
+        for (int i = 0; i < ARR_BMP.length; i++) {
             ARR_BMP[i] = Tools.readBitmapFolderFromAssets("image/balls/" + i);
+        }
     }
 
     /**
@@ -92,7 +100,12 @@ public class Ball {
      * 重生时间累计(>0：代表正处于等待重生, -1代表此小球可用, 0代表此小球正在使用)
      **/
     private int niReliveTimeCount;
+
+    /**
+     * 线程启动
+     */
     private boolean isThread;
+    private Timer timerBallAuto;
 
     public Ball() {
         this.niSpeed = 4;
@@ -100,11 +113,13 @@ public class Ball {
         reset();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void reset() {
         //动画
         niFrame = 0;
         //位置
-        rectPosition.left = Tools.getRandomInt(Main.getRECT_GANESCREEN_X(), Main.getRECT_GANESCREEN_X() + Main.getRECT_GANESCREEN_WIDTH() - NI_SIZE);
+        rectPosition.left = Tools.getRandomInt(Main.getRECT_GANESCREEN_X(), Main.getRECT_GANESCREEN_X() +
+                Main.getRECT_GANESCREEN_WIDTH() - NI_SIZE);
         rectPosition.top = Main.getRECT_GANESCREEN_Y() - NI_SIZE;
         rectPosition.right = rectPosition.left + NI_SIZE;
         rectPosition.bottom = rectPosition.top + NI_SIZE;
@@ -139,6 +154,7 @@ public class Ball {
             canvas.drawBitmap(ARR_BMP[niType][niFrame], rectPosition.left, rectPosition.top, null);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void logic() {
         //正在使用中
         if (niReliveTimeCount == 0) {
@@ -183,7 +199,6 @@ public class Ball {
      * @return
      */
     public boolean isCollideWith(Player p) {
-        callback.collideCheck(this);
         return Rect.intersects(rectPosition, p.getRectPosition());
     }
 
@@ -213,27 +228,37 @@ public class Ball {
             callback = null;
     }
 
+    private class LogicMonitor implements Runnable {
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    Thread.sleep(80);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                logic();
+            }
+        }
+    }
+
+    /**
+     * 线程启动方法
+     */
     public void start() {
-        if (isThread) {
-            isThread = false;
-            //玩家角色的动画线程启动
+        if (!isThread) {
+            isThread = true;
+            //            玩家角色的动画线程
             new Thread(new LogicMonitor()).start();
         }
     }
 
-    public void stop() {
-
-    }
-
-    private class LogicMonitor implements Runnable {
-        @Override
-        public void run() {
-            try {
-                Thread.sleep(80);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            logic();
-        }
+    /**
+     * 线程结束方法
+     */
+    public void close() {
+        isThread = false;
     }
 }

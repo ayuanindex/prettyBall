@@ -3,9 +3,18 @@ package top.xxytime.prettyball.main;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.os.Build;
+import android.sax.StartElementListener;
+import android.support.annotation.RequiresApi;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.Random;
+import java.util.SplittableRandom;
+import java.util.concurrent.ThreadLocalRandom;
 
 import top.xxytime.prettyball.game.Background;
 import top.xxytime.prettyball.game.Ball;
@@ -15,30 +24,30 @@ import top.xxytime.prettyball.game.StartView;
 import top.xxytime.prettyball.utils.Tools;
 
 /**
+ * @author ayuan
  * 画布类
  * 项目核心逻辑类
  * 1.6创建GameController画布类
  */
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class GameController extends View implements Runnable {
-    private static final String TAG = "GameController";
-
     /**
-     * 声明background对象
+     * 声明BackGround对象
      */
-    private Background back;
+    private Background background;
 
     /**
-     * 声明StartView对象(开始界面的对象)
+     * 声明StartView对象
      */
     private StartView startView;
 
     /**
-     * 是否是开始界面
+     * 开始开始界面
      */
     private boolean isStartView;
 
     /**
-     * 图片:GameOver
+     * 图片：gameover
      */
     private Bitmap bmpGameOver;
 
@@ -46,14 +55,19 @@ public class GameController extends View implements Runnable {
      * 玩家对象
      */
     private Player player;
+
     /**
-     * 游戏结束
+     * 是否结束游戏
      */
     private boolean isGameOver;
+
+    private int NUM_RANDOM;
+
     /**
-     * 小球实体类
+     * 绘制小球
      */
-    private Ball ball;
+    private Ball[] balls;
+
 
     /**
      * 创建构造方法
@@ -62,24 +76,16 @@ public class GameController extends View implements Runnable {
      */
     public GameController(Context context) {
         super(context);
-        back = new Background();
+        //background = new Background();
         startView = new StartView();
         isStartView = true;
         startView.addLoadResourceListener(new LoadResourceMonitor());
         startView.start();
         new Thread(this).start();
-        back.start();
-    }
+        //background.start();
+        NUM_RANDOM = Tools.getRandomInt(3, 5);
+        balls = new Ball[NUM_RANDOM];
 
-    /**
-     * 程序启动方法
-     */
-    private void startGame() {
-        isStartView = false;
-        back.start();
-        player.start();//开启玩家线程
-        //开启小球管理器线程
-        ball.start();
     }
 
     /**
@@ -89,28 +95,32 @@ public class GameController extends View implements Runnable {
      * @return
      */
     public boolean onTouch(MotionEvent event) {
-        //获取触屏位置的坐标
+        //触屏位置的坐标
         int niTouchX = (int) event.getX();
+        //检测屏幕中第一个触点，按下去执行的操作
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN://检测屏幕第一个触电，按下去执行的操作
-                //非开始，非结束，
+            case MotionEvent.ACTION_DOWN:
+                //非开始，非结束
                 if (!isStartView && !isGameOver) {
+
                     player.setState(true, niTouchX < Main.getRECT_GANESCREEN_X() + Main.getRECT_GANESCREEN_WIDTH() / 2);
                 }
                 break;
-            case MotionEvent.ACTION_UP://松开屏幕触电是执行的操作
+
+            case MotionEvent.ACTION_UP:
                 if (isStartView) {
                     if (startView.isStartGame()) {
                         //启动游戏
                         startGame();
                     }
                 } else {
-                    //游戏进行时状态
+                    //游戏进行状态
                     if (!isGameOver) {
-                        player.setState(false, niTouchX < Main.getRECT_GANESCREEN_X() + Main.getRECT_GANESCREEN_WIDTH() / 2);
+                        player.setState(false, niTouchX < Main.getRECT_GANESCREEN_X() + Main.getRECT_GANESCREEN_WIDTH());
+
                     } else {
-                        //当前游戏是GameOver状态
-                        //重新启动，重置restart();
+                        //当前游戏gemeover状态
+                        //重新启动 重置restart（）
                         player.reset();
                     }
                 }
@@ -139,23 +149,39 @@ public class GameController extends View implements Runnable {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (isStartView) {
-            //绘制开始界面
             startView.onDraw(canvas);
         } else {
-            if (isGameOver) {
-                //游戏结束
-                if (bmpGameOver != null) {
-                    canvas.drawBitmap(bmpGameOver, Main.getRECT_GANESCREEN_X(), Main.getRECT_GANESCREEN_Y(), null);
-                }
+            //游戏结束
+            if (bmpGameOver != null) {
+                canvas.drawBitmap(bmpGameOver, Main.getRECT_GANESCREEN_X(), Main.getRECT_GANESCREEN_Y(), null);
+
             } else {
-                //游戏进行中
-                back.onDraw(canvas);
-                //绘制玩家
+
+                //游戏开始
+                background.onDraw(canvas);
                 player.onDraw(canvas);
                 //绘制小球
-                ball.onDraw(canvas);
+                for (int i = 0; i < balls.length; i++) {
+                    balls[i].onDraw(canvas);
+                    balls[i].use();
+                }
+
             }
         }
+    }
+
+    /**
+     * 程序启动方法
+     */
+    private void startGame() {
+        isStartView = false;
+        background.start();
+        player.start();//开启玩家线程
+        //开启小球管理线程
+        for (int i = 0; i < balls.length; i++) {
+            balls[i].start();
+        }
+
     }
 
     @Override
@@ -166,7 +192,7 @@ public class GameController extends View implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            // 重绘制方法 不断的调用onDraw()方法
+            //重绘制方法 不断的调用onDraw()方法
             this.postInvalidate();
         }
     }
@@ -178,40 +204,46 @@ public class GameController extends View implements Runnable {
 
         @Override
         public boolean loadResource() {
-            back = new Background();
+            background = new Background();
+
             player = new Player();
-            player.addStateListener(new stateMonitor());
+            player.addStateListener(new StateMonitor());
             //创建小球对象
-            ball = new Ball();
-            ball.addBallListener(new BallsMonitor());
+            for (int i = 0; i < balls.length; i++) {
+                balls[i] = new Ball();
+                balls[i].addBallListener(new BallMonitor());
+            }
             return true;
         }
     }
 
-    private class stateMonitor implements StateCallBack {
+    private class StateMonitor implements StateCallBack {
         @Override
         public void notifyGameOver() {
             //结束逻辑
-
             //状态改变
-            isGameOver = true;
-            back.close();
-            player.close();
-            //加载GameOver背景图
-            bmpGameOver = Tools.readBitmapFromAssets("image/system/gameover.png");
+            if (player.getNiHP() <= 0) {
+
+                isGameOver = true;
+                background.close();
+                player.close();
+                //加载gameOver的背景图
+                bmpGameOver = Tools.readBitmapFromAssets("image/system/gameover.png");
+            }
         }
     }
 
-    private class BallsMonitor implements BallCallback {
+    private class BallMonitor implements BallCallback {
+
         @Override
         public void collideCheck(Ball ball) {
             boolean collideWith = ball.isCollideWith(player);
             if (collideWith) {
                 player.ballDeal(ball.getType());
-                ball.use();
                 ball.reset();
             }
+            System.out.println(collideWith);
+            System.out.println("血量" + player.getNiHP());
         }
     }
-
 }
