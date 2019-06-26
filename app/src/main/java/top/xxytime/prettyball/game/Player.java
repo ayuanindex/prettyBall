@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,6 +21,8 @@ import top.xxytime.prettyball.utils.Tools;
  * @author ayuan
  */
 public class Player {
+    private static final String TAG = "Player";
+
     /**
      * 生命条最大宽度
      */
@@ -28,7 +31,7 @@ public class Player {
     /**
      * 生命条高度
      */
-    private final int NI_HPBAR_HEIGHT = 6;
+    private final int NI_HPBAR_HEIGHT = 10;
 
     /**
      * 绘制文本：等级
@@ -212,7 +215,7 @@ public class Player {
         paintHpBarBound.setStyle(Paint.Style.STROKE);
         paintHpBarBound.setStrokeWidth(1);
         paintText = new Paint();
-        paintText.setTextSize(11);
+        paintText.setTextSize(15);
 
         pLv = new Point(
                 Main.getRECT_GANESCREEN_X() + 5,
@@ -252,11 +255,21 @@ public class Player {
 
     /**
      * 添加回调功能
+     *
+     * @param callBack--->回调对象
      */
+    public void addStateListener(StateCallBack callBack) {
+        this.callBack = callBack;
+    }
 
     /**
-     * 删除回调功能
+     * 删除回调对象
      */
+    public void removeStateListener() {
+        if (callBack != null) {
+            callBack = null;
+        }
+    }
 
     /**
      * 绘制方法
@@ -268,17 +281,18 @@ public class Player {
         if (niLV > 0 && niHP != NI_HPBAR_WIDTH) {
             paintHpBarBound.setColor(arrNiHpColor[niLV - 1]);
             canvas.drawRect(rectHpBar, paintHpBar);
+
         }
         // 绘制当前生命条
         paintHpBar.setColor(arrNiHpColor[niLV]);
-        canvas.drawRect(
+        canvas.drawRect(rectHpBar, paintHpBar);
+        /*canvas.drawRect(
                 rectHpBar.left,
                 rectHpBar.top,
                 rectHpBar.right,
-                rectHpBar.left + niHP,
+                rectHpBar.left + niHP + 10,
                 paintHpBar
-        );
-
+        );*/
         // 绘制生命条边框
         canvas.drawRect(rectHpBar, paintHpBarBound);
         // 绘制文本等级
@@ -497,11 +511,6 @@ public class Player {
         this.isMoving = isMoving;
         this.isLeft = isLeft;
         niFrame = isMoving ? (isLeft ? 0 : 3) : (isLeft ? 1 : 4);
-        /*if (isMoving) {
-            niFrame = isLeft ? 0 : 3;
-        } else {
-            niFrame = isLeft ? 1 : 4;
-        }*/
     }
 
     private class LogicMonitor implements Runnable {
@@ -518,6 +527,9 @@ public class Player {
         }
     }
 
+    /**
+     * 生命自减
+     */
     private class HpAutoHurtMonitor extends TimerTask {
         @Override
         public void run() {
@@ -526,24 +538,6 @@ public class Player {
             } else {
                 niStopAutoHurtValue--;
             }
-        }
-    }
-
-    /**
-     * 添加回调功能
-     *
-     * @param callBack--->回调对象
-     */
-    public void addStateListener(StateCallBack callBack) {
-        this.callBack = callBack;
-    }
-
-    /**
-     * 删除回调对象
-     */
-    public void removeStateListener() {
-        if (callBack != null) {
-            callBack = null;
         }
     }
 }

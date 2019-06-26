@@ -176,6 +176,7 @@ public class GameController extends View implements Runnable {
             player = new Player();
             player.addStateListener(new stateMonitor());
             //创建小球对象
+
             return true;
         }
     }

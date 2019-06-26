@@ -79,4 +79,8 @@ public final class Tools {
     public static void LogInfo(String strMsg) {
         Log.e(Info.STR_LOG_TAG, strMsg);
     }
+
+    public static int getRandomInt(int i, int i1) {
+        return 0;
+    }
 }
