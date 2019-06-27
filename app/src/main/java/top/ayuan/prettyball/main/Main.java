@@ -2,6 +2,8 @@ package top.ayuan.prettyball.main;
 
 import android.content.res.AssetManager;
 import android.graphics.Rect;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -24,6 +26,7 @@ public class Main extends AppCompatActivity {
      */
     public static final Rect RECT_GAMESCREEB = new Rect();
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +64,7 @@ public class Main extends AppCompatActivity {
     /**
      * 重写触屏操作方法onTouchEvent
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         gameController.onTouch(event);
@@ -74,6 +78,7 @@ public class Main extends AppCompatActivity {
      * @param event
      * @return
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         gameController.onKeyDown(keyCode, event);

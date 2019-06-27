@@ -112,6 +112,9 @@ public class Ball {
         reset();
     }
 
+    /**
+     * 小球重置
+     */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void reset() {
         //动画
@@ -155,8 +158,8 @@ public class Ball {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void logic() {
-        //正在使用中
         if (niReliveTimeCount == 0) {
+            //正在使用中
             niFrame = ++niFrame % NI_FRAME_MAX;
             rectPosition.top += niSpeed;
             rectPosition.bottom += niSpeed;
@@ -166,9 +169,8 @@ public class Ball {
             } else {
                 callback.collideCheck(this);
             }
-        }
-        //重生中
-        else if (niReliveTimeCount != -1) {
+        } else if (niReliveTimeCount != -1) {
+            //重生中
             niReliveTimeCount--;
             if (niReliveTimeCount == 0)
                 niReliveTimeCount = -1;
@@ -223,8 +225,9 @@ public class Ball {
      * 删除小球监听
      */
     public void removeListener() {
-        if (callback != null)
+        if (callback != null) {
             callback = null;
+        }
     }
 
     private class LogicMonitor implements Runnable {
@@ -249,7 +252,7 @@ public class Ball {
     public void start() {
         if (!isThread) {
             isThread = true;
-            //            玩家角色的动画线程
+            //小球角色线程
             new Thread(new LogicMonitor()).start();
         }
     }
