@@ -1,4 +1,4 @@
-package top.xxytime.prettyball.main;
+package top.ayuan.prettyball.main;
 
 public interface StateCallBack {
     void notifyGameOver();

@@ -1,4 +1,4 @@
-package top.xxytime.prettyball.game;
+package top.ayuan.prettyball.game;
 
 
 import android.graphics.Bitmap;
@@ -9,9 +9,9 @@ import android.support.annotation.RequiresApi;
 
 import java.util.Timer;
 
-import top.xxytime.prettyball.main.BallCallback;
-import top.xxytime.prettyball.main.Main;
-import top.xxytime.prettyball.utils.Tools;
+import top.ayuan.prettyball.main.BallCallback;
+import top.ayuan.prettyball.main.Main;
+import top.ayuan.prettyball.utils.Tools;
 
 public class Ball {
     /**

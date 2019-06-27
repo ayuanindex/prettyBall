@@ -1,12 +1,12 @@
-package top.xxytime.prettyball.game;
+package top.ayuan.prettyball.game;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
-import top.xxytime.prettyball.main.Main;
-import top.xxytime.prettyball.utils.Tools;
+import top.ayuan.prettyball.main.Main;
+import top.ayuan.prettyball.utils.Tools;
 
 /**
  * 背景的实体类

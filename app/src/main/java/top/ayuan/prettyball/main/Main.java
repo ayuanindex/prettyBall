@@ -1,4 +1,4 @@
-package top.xxytime.prettyball.main;
+package top.ayuan.prettyball.main;
 
 import android.content.res.AssetManager;
 import android.graphics.Rect;

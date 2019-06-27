@@ -1,4 +1,4 @@
-package top.xxytime.prettyball.game;
+package top.ayuan.prettyball.game;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -7,8 +7,8 @@ import android.graphics.Point;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import top.xxytime.prettyball.main.Main;
-import top.xxytime.prettyball.utils.Tools;
+import top.ayuan.prettyball.main.Main;
+import top.ayuan.prettyball.utils.Tools;
 
 /**
  * 开始界面，点击开始界面进过加载过程到主界面

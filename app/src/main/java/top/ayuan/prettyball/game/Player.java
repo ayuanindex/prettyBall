@@ -1,4 +1,4 @@
-package top.xxytime.prettyball.game;
+package top.ayuan.prettyball.game;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -6,14 +6,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.util.Log;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-import top.xxytime.prettyball.main.Main;
-import top.xxytime.prettyball.main.StateCallBack;
-import top.xxytime.prettyball.utils.Tools;
+import top.ayuan.prettyball.main.Main;
+import top.ayuan.prettyball.main.StateCallBack;
+import top.ayuan.prettyball.utils.Tools;
 
 /**
  * 玩家实体类

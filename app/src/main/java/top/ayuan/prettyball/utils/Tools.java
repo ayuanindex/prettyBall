@@ -1,4 +1,4 @@
-package top.xxytime.prettyball.utils;
+package top.ayuan.prettyball.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,8 +12,8 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import top.xxytime.prettyball.main.Info;
-import top.xxytime.prettyball.main.Main;
+import top.ayuan.prettyball.main.Info;
+import top.ayuan.prettyball.main.Main;
 
 /**
  * 工具类

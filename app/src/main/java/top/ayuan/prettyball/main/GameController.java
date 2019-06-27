@@ -1,27 +1,20 @@
-package top.xxytime.prettyball.main;
+package top.ayuan.prettyball.main;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Build;
-import android.sax.StartElementListener;
 import android.support.annotation.RequiresApi;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.Random;
-import java.util.SplittableRandom;
-import java.util.concurrent.ThreadLocalRandom;
-
-import top.xxytime.prettyball.game.Background;
-import top.xxytime.prettyball.game.Ball;
-import top.xxytime.prettyball.game.LoadResourceListener;
-import top.xxytime.prettyball.game.Player;
-import top.xxytime.prettyball.game.StartView;
-import top.xxytime.prettyball.utils.Tools;
+import top.ayuan.prettyball.game.Background;
+import top.ayuan.prettyball.game.Ball;
+import top.ayuan.prettyball.game.LoadResourceListener;
+import top.ayuan.prettyball.game.Player;
+import top.ayuan.prettyball.game.StartView;
+import top.ayuan.prettyball.utils.Tools;
 
 /**
  * @author ayuan
@@ -151,7 +144,6 @@ public class GameController extends View implements Runnable {
             //游戏结束
             if (bmpGameOver != null) {
                 canvas.drawBitmap(bmpGameOver, Main.getRECT_GANESCREEN_X(), Main.getRECT_GANESCREEN_Y(), null);
-
             } else {
 
                 //游戏开始

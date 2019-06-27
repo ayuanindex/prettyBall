@@ -1,4 +1,4 @@
-package top.xxytime.prettyball;
+package top.ayuan.prettyball;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

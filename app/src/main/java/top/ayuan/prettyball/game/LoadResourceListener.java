@@ -1,4 +1,4 @@
-package top.xxytime.prettyball.game;
+package top.ayuan.prettyball.game;
 
 /**
  * 读取游戏资源

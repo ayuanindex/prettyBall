@@ -1,4 +1,4 @@
-package top.xxytime.prettyball;
+package top.ayuan.prettyball;
 
 import org.junit.Test;
 
