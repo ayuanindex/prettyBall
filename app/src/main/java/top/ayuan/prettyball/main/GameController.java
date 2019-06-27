@@ -63,6 +63,7 @@ public class GameController extends View implements Runnable {
      * 绘制小球
      */
     private Ball[] balls;
+    private boolean isLeft;
 
 
     /**
@@ -131,6 +132,17 @@ public class GameController extends View implements Runnable {
      * @return
      */
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        isLeft = true;
+        switch (event.getKeyCode()) {
+            case KeyEvent.KEYCODE_DPAD_LEFT:
+                isLeft = true;
+                player.setState(true, isLeft);
+                break;
+            case KeyEvent.KEYCODE_DPAD_RIGHT:
+                isLeft = false;
+                player.setState(true, isLeft);
+                break;
+        }
         return super.onKeyDown(keyCode, event);
     }
 
@@ -221,6 +233,24 @@ public class GameController extends View implements Runnable {
                 player.close();
                 //加载gameOver的背景图
                 bmpGameOver = Tools.readBitmapFromAssets("image/system/gameover.png");
+            }
+        }
+
+        @Override
+        public void addBallSpeed() {
+            for (int i = 0; i < balls.length; i++) {
+                int niSpeed = balls[i].getNiSpeed();
+                niSpeed += 2;
+                balls[i].setNiSpeed(niSpeed);
+            }
+        }
+
+        @Override
+        public void downBallSpeed() {
+            for (int i = 0; i < balls.length; i++) {
+                int niSpeed = balls[i].getNiSpeed();
+                niSpeed -= 2;
+                balls[i].setNiSpeed(niSpeed);
             }
         }
     }

@@ -322,6 +322,7 @@ public class Player {
         if (niLV < NI_LV_MAX - 1) {
             niLV++;
             strLv = STR_TEXT_LV + (niLV + 1);
+            callBack.addBallSpeed();
             return true;
         }
         return false;
@@ -349,6 +350,7 @@ public class Player {
         if (niHP <= 0) {
             if (niLV > 0) {
                 niLV--;
+                callBack.downBallSpeed();
                 strLv = STR_TEXT_LV + (niLV + 1);
                 niHP = NI_HPBAR_WIDTH;
             } else {

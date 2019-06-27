@@ -107,9 +107,17 @@ public class Ball {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public Ball() {
-        this.niSpeed = 4;
+        this.niSpeed = 5;
         rectPosition = new Rect();
         reset();
+    }
+
+    public int getNiSpeed() {
+        return niSpeed;
+    }
+
+    public void setNiSpeed(int niSpeed) {
+        this.niSpeed = niSpeed;
     }
 
     /**
