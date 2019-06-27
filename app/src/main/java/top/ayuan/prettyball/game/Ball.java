@@ -83,7 +83,7 @@ public class Ball {
     private Rect rectPosition;
 
     /**
-     * 速度
+     * 小球下落的速度
      **/
     private int niSpeed;
     /**
@@ -120,8 +120,7 @@ public class Ball {
         //动画
         niFrame = 0;
         //位置
-        rectPosition.left = Tools.getRandomInt(Main.getRECT_GANESCREEN_X(), Main.getRECT_GANESCREEN_X() +
-                Main.getRECT_GANESCREEN_WIDTH() - NI_SIZE);
+        rectPosition.left = Tools.getRandomInt(Main.getRECT_GANESCREEN_X(), Main.getRECT_GANESCREEN_X() + Main.getRECT_GANESCREEN_WIDTH() - NI_SIZE);
         rectPosition.top = Main.getRECT_GANESCREEN_Y() - NI_SIZE;
         rectPosition.right = rectPosition.left + NI_SIZE;
         rectPosition.bottom = rectPosition.top + NI_SIZE;
@@ -160,7 +159,7 @@ public class Ball {
     public void logic() {
         if (niReliveTimeCount == 0) {
             //正在使用中
-            niFrame = ++niFrame % NI_FRAME_MAX;
+            niFrame = ++niFrame == 6 ? 0 : niFrame;
             rectPosition.top += niSpeed;
             rectPosition.bottom += niSpeed;
             //检测小球是否超出屏幕底端

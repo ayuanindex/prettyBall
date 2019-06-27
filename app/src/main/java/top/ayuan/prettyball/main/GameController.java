@@ -40,7 +40,7 @@ public class GameController extends View implements Runnable {
     private boolean isStartView;
 
     /**
-     * 图片：gameover
+     * 图片：gameover背景图
      */
     private Bitmap bmpGameOver;
 
@@ -54,6 +54,9 @@ public class GameController extends View implements Runnable {
      */
     private boolean isGameOver;
 
+    /**
+     * 随机出现小球的数量
+     */
     private int NUM_RANDOM;
 
     /**
@@ -106,7 +109,8 @@ public class GameController extends View implements Runnable {
                 } else {
                     //游戏进行状态
                     if (!isGameOver) {
-                        player.setState(false, niTouchX < Main.getRECT_GANESCREEN_X() + Main.getRECT_GANESCREEN_WIDTH());
+                        //手指抬起，将任务设置为不移动的状态
+                        player.setState(false, niTouchX < Main.getRECT_GANESCREEN_X() + Main.getRECT_GANESCREEN_WIDTH() / 2);
 
                     } else {
                         //当前游戏gemeover状态
@@ -154,7 +158,6 @@ public class GameController extends View implements Runnable {
                     balls[i].onDraw(canvas);
                     balls[i].use();
                 }
-
             }
         }
     }
@@ -231,8 +234,6 @@ public class GameController extends View implements Runnable {
                 player.ballDeal(ball.getType());
                 ball.reset();
             }
-            System.out.println(collideWith);
-            System.out.println("血量" + player.getNiHP());
         }
     }
 }
