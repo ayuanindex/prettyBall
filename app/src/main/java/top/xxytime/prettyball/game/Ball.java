@@ -8,11 +8,9 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 
 import java.util.Timer;
-import java.util.TimerTask;
 
 import top.xxytime.prettyball.main.BallCallback;
 import top.xxytime.prettyball.main.Main;
-import top.xxytime.prettyball.main.StateCallBack;
 import top.xxytime.prettyball.utils.Tools;
 
 public class Ball {
@@ -107,6 +105,7 @@ public class Ball {
     private boolean isThread;
     private Timer timerBallAuto;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public Ball() {
         this.niSpeed = 4;
         rectPosition = new Rect();
