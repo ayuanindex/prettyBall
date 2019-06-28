@@ -81,7 +81,7 @@ public class GameController extends View implements Runnable {
         new Thread(this).start();
         //background.start();
         NUM_RANDOM = Tools.getRandomInt(3, 5);
-        balls = new Ball[NUM_RANDOM];
+        balls = new Ball[NUM_RANDOM + 10];
     }
 
     /**

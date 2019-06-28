@@ -4,9 +4,12 @@ public interface StateCallBack {
     void notifyGameOver();
 
     /**
-     * 小球速度增加
+     * 小球加速
      */
     void addBallSpeed();
 
+    /**
+     * 小球减速
+     */
     void downBallSpeed();
 }
